@@ -56,7 +56,7 @@ namespace Sample
             var host = Host.CreateDefaultBuilder()
                 .ConfigureServices((context, services) =>
                 {
-                    services.Configure<Constants>(config.GetSection(nameof(Constants)));;
+                    services.Configure<Constants>(config.GetSection(nameof(Constants)));
                     services.AddTransient<ITestService, TestService>();
                 })
                 .UseSerilog(logger: Log.Logger)

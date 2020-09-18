@@ -22,18 +22,24 @@ namespace Sample
     public class TestService : ITestService
     {
         private readonly ILogger _logger;
-        private readonly Constants _config;
+        private readonly IConfiguration _config;
+        private readonly Constants _constants;
 
-        public TestService(ILogger logger, IOptions<Constants> config)
+        public TestService(ILogger logger,
+            IConfiguration config,
+            IOptions<Constants> constants)
         {
             _logger = logger;
-            _config = config.Value;
+            _config = config;
+            _constants = constants.Value;
         }
 
         public void Run()
         {
-            _logger.Information("Pi value is {pi}", _config.Pi);
-            _logger.Information("E  value is {e}", _config.E);
+            
+            _logger.Information("Version {version}", _config.GetValue<string>("Version"));
+            _logger.Information("Pi value is {pi}", _constants.Pi);
+            _logger.Information("E  value is {e}", _constants.E);
         }
     }
 
@@ -54,6 +60,10 @@ namespace Sample
             Log.Logger.Information($"Starting: {Assembly.GetExecutingAssembly().FullName}");
 
             var host = Host.CreateDefaultBuilder()
+                .ConfigureAppConfiguration((context, configuration) =>
+                {
+                    configuration.AddConfiguration(config);
+                })
                 .ConfigureServices((context, services) =>
                 {
                     services.Configure<Constants>(config.GetSection(nameof(Constants)));

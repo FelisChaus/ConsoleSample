@@ -36,7 +36,6 @@ namespace Sample
 
         public void Run()
         {
-            
             _logger.Information("Version {version}", _config.GetValue<string>("Version"));
             _logger.Information("Pi value is {pi}", _constants.Pi);
             _logger.Information("E  value is {e}", _constants.E);

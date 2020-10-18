@@ -34,11 +34,34 @@ namespace Sample
             _constants = constants.Value;
         }
 
+        private static string ResourceFileToString(string resourceFilename, Assembly assembly)
+        {
+            var t = "." + resourceFilename;
+            foreach (var f in assembly.GetManifestResourceNames())
+            {
+                if (!f.EndsWith(t))
+                {
+                    continue;
+                }
+
+                var stream = assembly.GetManifestResourceStream(f);
+                if (stream != null)
+                {
+                    return new StreamReader(stream).ReadToEnd();
+                }
+            }
+
+            return null;
+        }
+
         public void Run()
         {
             _logger.Information("Version {version}", _config.GetValue<string>("Version"));
             _logger.Information("Pi value is {pi}", _constants.Pi);
             _logger.Information("E  value is {e}", _constants.E);
+            _logger.Information("Query is {query}",
+                ResourceFileToString("query.sql",
+                    Assembly.GetExecutingAssembly()));
         }
     }
 
@@ -59,10 +82,7 @@ namespace Sample
             Log.Logger.Information($"Starting: {Assembly.GetExecutingAssembly().FullName}");
 
             var host = Host.CreateDefaultBuilder()
-                .ConfigureAppConfiguration((context, configuration) =>
-                {
-                    configuration.AddConfiguration(config);
-                })
+                .ConfigureAppConfiguration((context, configuration) => { configuration.AddConfiguration(config); })
                 .ConfigureServices((context, services) =>
                 {
                     services.Configure<Constants>(config.GetSection(nameof(Constants)));

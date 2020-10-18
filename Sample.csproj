@@ -17,4 +17,8 @@
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
     </ItemGroup>
+
+    <ItemGroup>
+        <EmbeddedResource Include="Resources\*.sql" />
+    </ItemGroup>
 </Project>

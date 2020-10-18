@@ -79,7 +79,8 @@ namespace Sample
                 .Enrich.FromLogContext()
                 .CreateLogger();
 
-            Log.Logger.Information($"Starting: {Assembly.GetExecutingAssembly().FullName}");
+            Log.Logger.Information("Starting: {fullName}", 
+                Assembly.GetExecutingAssembly().FullName);
 
             var host = Host.CreateDefaultBuilder()
                 .ConfigureAppConfiguration((context, configuration) => { configuration.AddConfiguration(config); })

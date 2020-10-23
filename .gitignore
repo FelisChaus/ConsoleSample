@@ -1,0 +1,14 @@
+.idea/**
+.vscode/**
+.vs/**
+
+.DS_Store
+
+[Bb]in/**
+[Oo]bj/**
+
+*.suo
+*.user
+*.sln.DotSettings.user
+*.userosscache
+*.sln.docstates

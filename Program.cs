@@ -67,7 +67,7 @@ namespace Sample
 
     public static class Program
     {
-        public static void Main(string[] args)
+        public static void Main()
         {
             var config = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
@@ -79,7 +79,7 @@ namespace Sample
                 .Enrich.FromLogContext()
                 .CreateLogger();
 
-            Log.Logger.Information("Starting: {fullName}", 
+            Log.Logger.Information("Starting: {fullName}",
                 Assembly.GetExecutingAssembly().FullName);
 
             var host = Host.CreateDefaultBuilder()
